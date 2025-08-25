@@ -1,0 +1,5 @@
+import Particles from "react-tsparticles";
+
+function ParticleBackground() {
+  return <Particles options={{ /* your config here */ }} />;
+}

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAURABH</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-section {
+            margin-bottom: 40px;
+        }
+
+        .profile-img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 500;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buttons a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .buttons a:hover::before {
+            left: 100%;
+        }
+
+        .buttons a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .buttons a i {
+            font-size: 1.3rem;
+        }
+
+        /* Platform-specific colors */
+        .instagram:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .twitter:hover {
+            background: #1da1f2;
+        }
+
+        .linkedin:hover {
+            background: #0077b5;
+        }
+
+        .github:hover {
+            background: #333;
+        }
+
+        .youtube:hover {
+            background: #ff0000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 15px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .buttons {
+                max-width: 300px;
+            }
+
+            .buttons a {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .buttons a {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Glowing animation */
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        .profile-img {
+            animation: glow 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <div class="profile-section">
+            <img src="/placeholder.svg?height=120&width=120" alt="Saurabh's Profile" class="profile-img">
+            <h1>saurabh</h1>
+            <p class="tagline">From debugging code to boss battles – let's connect!</p>
+        </div>
+        
+        <div class="buttons">
+            <a href="https://instagram.com" target="_blank" class="instagram">
+                <i class="fab fa-instagram"></i>
+                Instagram
+            </a>
+            <a href="https://x.com" target="_blank" class="twitter">
+                <i class="fab fa-x-twitter"></i>
+                X (Twitter)
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="linkedin">
+                <i class="fab fa-linkedin"></i>
+                LinkedIn
+            </a>
+            <a href="https://github.com/saurabh-v12" target="_blank" class="github">
+                <i class="fab fa-github"></i>
+                saurabh-v12 – Overview
+            </a>
+            <a href="https://youtube.com" target="_blank" class="youtube">
+                <i class="fab fa-youtube"></i>
+                YouTube
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Particle Animation System
+        const App = {
+            canvas: null,
+            ctx: null,
+            particles: [],
+            particleCount: 150,
+            mouse: { x: 0, y: 0 },
+            
+            setup() {
+                this.canvas = document.getElementById('canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                this.createParticles();
+                this.bindEvents();
+                this.draw();
+            },
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            },
+            
+            createParticles() {
+                this.particles = [];
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 3 + 1,
+                        opacity: Math.random() * 0.8 + 0.2,
+                        color: `hsl(${Math.random() * 60 + 200}, 70%, 70%)`
+                    });
+                }
+            },
+            
+            updateParticles() {
+                _.forEach(this.particles, (particle) => {
+                    // Update position
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Mouse interaction
+                    const dx = this.mouse.x - particle.x;
+                    const dy = this.mouse.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100;
+                        particle.vx += dx * force * 0.001;
+                        particle.vy += dy * force * 0.001;
+                    }
+                    
+                    // Boundary check
+                    if (particle.x < 0 || particle.x > this.canvas.width) {
+                        particle.vx *= -1;
+                    }
+                    if (particle.y < 0 || particle.y > this.canvas.height) {
+                        particle.vy *= -1;
+                    }
+                    
+                    // Keep particles in bounds
+                    particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+                    particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+                    
+                    // Damping
+                    particle.vx *= 0.99;
+                    particle.vy *= 0.99;
+                });
+            },
+            
+            drawParticles() {
+                _.forEach(this.particles, (particle) => {
+                    this.ctx.save();
+                    this.ctx.globalAlpha = particle.opacity;
+                    this.ctx.fillStyle = particle.color;
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.restore();
+                });
+            },
+            
+            drawConnections() {
+                _.forEach(this.particles, (particle, i) => {
+                    _.forEach(this.particles.slice(i + 1), (otherParticle) => {
+                        const dx = particle.x - otherParticle.x;
+                        const dy = particle.y - otherParticle.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 80) {
+                            this.ctx.save();
+                            this.ctx.globalAlpha = (80 - distance) / 80 * 0.3;
+                            this.ctx.strokeStyle = '#ffffff';
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(otherParticle.x, otherParticle.y);
+                            this.ctx.stroke();
+                            this.ctx.restore();
+                        }
+                    });
+                });
+            },
+            
+            draw() {
+                // Clear canvas
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Update and draw particles
+                this.updateParticles();
+                this.drawConnections();
+                this.drawParticles();
+                
+                // Continue animation
+                requestAnimationFrame(() => this.draw());
+            },
+            
+            bindEvents() {
+                window.addEventListener('resize', () => {
+                    this.resize();
+                    this.createParticles();
+                });
+                
+                window.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                });
+                
+                // Touch events for mobile
+                window.addEventListener('touchmove', (e) => {
+                    if (e.touches.length > 0) {
+                        this.mouse.x = e.touches[0].clientX;
+                        this.mouse.y = e.touches[0].clientY;
+                    }
+                });
+            }
+        };
+        
+        // Initialize the app when the page loads
+        window.addEventListener('load', () => {
+            App.setup();
+        });
+    </script>
+</body>
+</html>
