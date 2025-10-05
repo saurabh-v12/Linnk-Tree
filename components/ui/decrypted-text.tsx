@@ -42,7 +42,7 @@ export default function DecryptedText({
   sequential = false,
   revealDirection = "start",
   useOriginalCharsOnly = false,
-  characters = "!@#$%^&*()_+",
+  characters = "Meenaskhi",
   className = "",
   parentClassName = "",
   encryptedClassName = "",
