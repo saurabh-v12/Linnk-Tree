@@ -16,7 +16,7 @@ export function ProfileImage() {
         onLoad={() => setIsLoading(false)}
         priority
       />
-      {isLoading && <div className="absolute inset-0 animate-pulse bg-white/30" />}
+      {isLoading && <div className="absolute inset-0 animate-pulse bg-white/90" />}
     </div>
   )
 }
